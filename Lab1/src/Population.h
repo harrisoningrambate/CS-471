@@ -1,11 +1,15 @@
 #ifndef POPULATION
 #define POPULATION
+#include <vector>
+#include <random>
+using namespace std;
 
 class Population {
 public: 
-	// declare public methods
-private:
-	// declare private variables / methods
+	Population(size_t pop_size, size_t dimensions);
+
+	vector<vector<float>> population;
+
 };
 
 #endif
