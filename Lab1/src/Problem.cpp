@@ -1,12 +1,15 @@
 #include <math.h>
 #include "Problem.h"
 
+// cast math.h implementation of pi from double to float to use in functions
+#define PI ((float)M_PI)
+
 float Schwefel(const vector<float>& vec) {
 	int n = vec.size();
 	float result = 418.9829f * n;
-	float summation = 0;
+	float summation = 0.0f;
 	for (int i = 0; i < n; i++) {
-		summation += -1 * vec[i] * sin(sqrt(abs(vec[i])));
+		summation += -1.0f * vec[i] * sin(sqrt(abs(vec[i])));
 	}
 	result -= summation;
 	return result;
@@ -28,13 +31,11 @@ float Rosenbrock(const vector<float>& vec) {
 
 	float temp; // used to hold summation calculation
 	for (int i = 0; i < n - 1; i++) {
-		temp = 0.0f; // reset temp;
-
 		// calculation current instance of the summation
 		temp = vec[i] * vec[i] - vec[i+1];
 		temp *= temp;
-		temp += (1 - vec[i]) * (1 - vec[i]);
-		temp *= 100;
+		temp += (1.0f - vec[i]) * (1.0f - vec[i]);
+		temp *= 100.0f;
 		
 		result += temp;
 	}
@@ -42,7 +43,24 @@ float Rosenbrock(const vector<float>& vec) {
 	return result;
 }
 
-// TODO: implement Rastrigin
+float Rastrigin(const vector<float>& vec) {
+	int n = vec.size();
+	float result = 10.0f * n;
+	float summation = 0.0f;
+	
+	float temp;
+	for (int i = 0; i < n; i++) {
+		// calculation current instance of the summation
+		temp = vec[i] * vec[i];
+		temp -= (10.0f * cos(2 * PI *vec[i]));
+
+		summation += temp;
+	}
+	// NOTE: this might change to a +=
+	result *= summation;
+
+	return result;
+}
 
 // TODO: implement Griegwangk
 

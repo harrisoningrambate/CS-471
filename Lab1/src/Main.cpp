@@ -14,7 +14,7 @@ int main() {
 	}
 
 	for (int i = 0; i < pop_test.population.size(); i++) {
-		pop_test.fitness[i] = Rosenbrock(pop_test.population[i]);
+		pop_test.fitness[i] = Rastrigin(pop_test.population[i]);
 	}
 	std::cout << "\nFitness\n"; 
 	
