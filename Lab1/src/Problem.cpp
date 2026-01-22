@@ -1,7 +1,7 @@
 #include <math.h>
 #include "Problem.h"
 
-float Schwefel(vector<float>& vec) {
+float Schwefel(const vector<float>& vec) {
 	int n = vec.size();
 	float result = 418.9829f * n;
 	float summation = 0;
@@ -12,7 +12,7 @@ float Schwefel(vector<float>& vec) {
 	return result;
 }
 
-float FirstDeJong(vector<float>& vec) {
+float FirstDeJong(const vector<float>& vec) {
 	int n = vec.size();
 	float result = 0.0f;
 
@@ -22,7 +22,7 @@ float FirstDeJong(vector<float>& vec) {
 	return result;
 }
 
-float Rosenbrock(vector<float>& vec) {
+float Rosenbrock(const vector<float>& vec) {
 	int n = vec.size();
 	float result = 0.0f;
 
@@ -38,6 +38,7 @@ float Rosenbrock(vector<float>& vec) {
 		
 		result += temp;
 	}
+
 	return result;
 }
 

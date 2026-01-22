@@ -3,10 +3,10 @@
 #include <vector>
 using namespace std;
 
-float Schwefel(vector<float>& vec);
+float Schwefel(const vector<float>& vec);
 
-float FirstDeJong(vector<float>& vec);
+float FirstDeJong(const vector<float>& vec);
 
-float Rosenbrock(vector<float>& vec);
+float Rosenbrock(const vector<float>& vec);
 
 #endif
