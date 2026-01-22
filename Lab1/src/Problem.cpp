@@ -6,7 +6,7 @@ float Schwefel(vector<float>& vec) {
 	float result = 418.9829f * n;
 	float summation = 0;
 	for (int i = 0; i < n; i++) {
-		summation = -1 * vec[i] * sin(sqrt(abs(vec[i])));
+		summation += -1 * vec[i] * sin(sqrt(abs(vec[i])));
 	}
 	result -= summation;
 	return result;
@@ -22,13 +22,21 @@ float FirstDeJong(vector<float>& vec) {
 	return result;
 }
 
-// TODO: implement Rosenbrock
 float Rosenbrock(vector<float>& vec) {
 	int n = vec.size();
 	float result = 0.0f;
 
+	float temp; // used to hold summation calculation
 	for (int i = 0; i < n - 1; i++) {
-		result += 100 * (pow((vec[i] * vec[i] - vec[i+1]), 2) + (pow(1-vec[i], 2)));
+		temp = 0.0f; // reset temp;
+
+		// calculation current instance of the summation
+		temp = vec[i] * vec[i] - vec[i+1];
+		temp *= temp;
+		temp += (1 - vec[i]) * (1 - vec[i]);
+		temp *= 100;
+		
+		result += temp;
 	}
 	return result;
 }
