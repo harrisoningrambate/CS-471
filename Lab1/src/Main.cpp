@@ -14,12 +14,12 @@ int main() {
 	}
 
 	for (int i = 0; i < pop_test.population.size(); i++) {
-		pop_test.fitness[i] = Schwefel(pop_test.population[i]);
+		pop_test.fitness[i] = Rosenbrock(pop_test.population[i]);
 	}
 	std::cout << "\nFitness\n"; 
 	
 	for (int i = 0; i < pop_test.population.size(); i++) {
-		std::cout << pop_test.fitness[i] << " ";
+		std::cout << std::fixed << pop_test.fitness[i] << " ";
 	}
 	std::cout << std::endl;
 
