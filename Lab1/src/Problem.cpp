@@ -63,6 +63,24 @@ float Rastrigin(const vector<float>& vec) {
 }
 
 // TODO: implement Griegwangk
+float Griewangk(const vector<float>& vec){
+	int n = vec.size();
+	float result = 1.0f;
+	float summation = 0.0f;
+	float product = 1.0f;
+
+	for (int i = 0; i < n; i++) {
+		// calculation current instance of the summation and product
+		summation += (vec[i] * vec[i]) / 4000.0f;
+		product *= cos(vec[i] / sqrt(i + 1));
+	}
+
+	// finalize result
+	result += summation;
+	result -= product;
+
+	return result;
+}
 
 // TODO: implement Sine Envelope Sine Wave
 
