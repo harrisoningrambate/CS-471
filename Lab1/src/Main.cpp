@@ -13,7 +13,16 @@ int main() {
 		std::cout << std::endl << std::endl;
 	}
 
-	std::cout << "1st De Jong's result: " << FirstDeJong(pop_test.population[0]) << std::endl;
+	for (int i = 0; i < pop_test.population.size(); i++) {
+		pop_test.fitness[i] = Schwefel(pop_test.population[i]);
+	}
+	std::cout << "\nFitness\n"; 
+	
+	for (int i = 0; i < pop_test.population.size(); i++) {
+		std::cout << pop_test.fitness[i] << " ";
+	}
+	std::cout << std::endl;
+
 	// output data
 	return 0;
 }
