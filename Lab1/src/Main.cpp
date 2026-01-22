@@ -5,7 +5,7 @@
 int main() {
 	// read input data
 	// generate population vectors
-	Population pop_test(5, 5);
+	Population pop_test(5, 5, -100, 100);
 	// calculate fitness
 	for (int i = 0; i < pop_test.population.size(); i++) {
 		for (int j = 0; j < pop_test.population[i].size(); j++)

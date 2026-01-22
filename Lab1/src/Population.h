@@ -6,9 +6,10 @@ using namespace std;
 
 class Population {
 public: 
-	Population(size_t pop_size, size_t dimensions);
+	Population(size_t pop_size, size_t dimensions, float dist_low, float dist_high);
 
 	vector<vector<float>> population;
+	vector<float> fitness;
 
 };
 

@@ -1,3 +1,4 @@
+#include <math.h>
 #include "Problem.h"
 
 float Schwefel(vector<float> vec) {
@@ -5,6 +6,7 @@ float Schwefel(vector<float> vec) {
 	float result = 418.9829f * n;
 	for (int i = 0; i < n; i++) {
 		// TODO: implement summation portion of Schwefel's funciton
+		result -= vec[i];
 	}
 	return result;
 }
