@@ -16,4 +16,6 @@ float Griewangk(const vector<float>& vec);
 float SineEnvelope(const vector<float>& vec);
 
 float StretchedV(const vector<float>& vec);
+
+float AckleyOne(const vector<float>& vec);
 #endif

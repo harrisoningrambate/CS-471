@@ -3,6 +3,7 @@
 
 // cast math.h implementation of pi from double to float to use in functions
 #define PI ((float)M_PI)
+#define E ((float)M_E)
 
 float Schwefel(const vector<float>& vec) {
 	int n = vec.size();
@@ -124,7 +125,20 @@ float StretchedV(const vector<float>& vec) {
 	return result;
 }
 
-// TODO: implement Ackley's One
+float AckleyOne(const vector<float>& vec) {
+	int n = vec.size();
+	float result = 0.0f;
+	float constant = 1 / pow(E, 0.2f); // reused calculation
+	
+	float temp;
+	for (int i = 0; i < n - 1; i++) {
+		temp = vec[i] * vec[i] + vec[i + 1] * vec[i + 1];
+		temp = constant * sqrt(temp);
+		temp += 3 * (cos(2 * vec[i]) + sin(2 * vec[i + 1]));
+
+		result += temp;
+	}
+}
 
 // TODO: implement Ackley's Two
 
