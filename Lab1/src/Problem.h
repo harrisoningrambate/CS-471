@@ -18,4 +18,6 @@ float SineEnvelope(const vector<float>& vec);
 float StretchedV(const vector<float>& vec);
 
 float AckleyOne(const vector<float>& vec);
+
+float AckleyTwo(const vector<float>& vec);
 #endif

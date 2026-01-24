@@ -138,8 +138,27 @@ float AckleyOne(const vector<float>& vec) {
 
 		result += temp;
 	}
+
+	return result;
 }
 
-// TODO: implement Ackley's Two
+float AckleyTwo(const vector<float>& vec) {
+	int n = vec.size();
+	float result  = 0.0f;
+	
+	float temp1, temp2;
+	for (int i = 0; i < n -1; i++) {
+		temp1 = vec[i] * vec[i] + vec[i + 1] * vec[i + 1];
+		temp1 /= 2.0f;
+		temp1 = 20.0f / pow(E, 0.2f * sqrt(temp1));
+
+		temp2 = cos(2 * PI * vec[i]) + cos(2 * PI * vec[i + 1]);
+		temp2 = pow(E, 0.5f * temp2);
+
+		result += 20.0f + E - temp1 - temp2;
+	}
+
+	return result;
+}
 
 // TODO: implement Egg Holder

@@ -14,7 +14,7 @@ int main() {
 	}
 
 	for (int i = 0; i < pop_test.population.size(); i++) {
-		pop_test.fitness[i] = AckleyOne(pop_test.population[i]);
+		pop_test.fitness[i] = AckleyTwo(pop_test.population[i]);
 	}
 	std::cout << "\nFitness\n"; 
 	
