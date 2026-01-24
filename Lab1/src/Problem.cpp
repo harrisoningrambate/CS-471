@@ -161,4 +161,18 @@ float AckleyTwo(const vector<float>& vec) {
 	return result;
 }
 
-// TODO: implement Egg Holder
+float EggHolder(const vector<float>& vec) {
+	int n = vec.size();
+	float result = 0.0f;
+
+	float temp;
+	for (int i = 0; i < n - 1; i++) {
+		temp = sqrt(abs(vec[i] - vec[i + 1] - 47.0f));
+		result -= vec[i] * sin(temp);
+
+		temp = sqrt(abs(vec[i + 1] + 47.0f + vec[i] / 2.0f));
+		result -= (vec[i + 1] + 47.0f) * sin(temp);
+	}
+
+	return result;
+}
