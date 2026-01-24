@@ -80,7 +80,6 @@ float Griewangk(const vector<float>& vec){
 	return result;
 }
 
-// TODO: implement Sine Envelope Sine Wave
 float SineEnvelope(const vector<float>& vec){
 	int n = vec.size();
 	float result = 0.0f;
@@ -88,12 +87,15 @@ float SineEnvelope(const vector<float>& vec){
 
 	float numerator;
 	float denominator;
+	float sum_of_squares; // reused calculation
 	for (int i = 0; i < n -1; i++) {
-		numerator = vec[i] * vec[i] + vec[i+1] * vec[i+ 1] - 0.5f;
+		sum_of_squares = vec[i] * vec[i] + vec[i + 1] * vec[i + 1];
+
+		numerator = sum_of_squares - 0.5f;
 		numerator *= numerator;
 		numerator = sin(numerator);
 
-		denominator = 1.0f + 0.001f * (vec[i] + vec[i] + vec[i + 1] * vec[i + 1]);
+		denominator = 1.0f + 0.001f * (sum_of_squares);
 		denominator *= denominator;
 
 		summation += 0.5f * (numerator / denominator);
@@ -103,7 +105,24 @@ float SineEnvelope(const vector<float>& vec){
 	return result;
 }
 
-// TODO: implement Stretched V Sine Wave
+float StretchedV(const vector<float>& vec) {
+	int n = vec.size();
+	float result = 0.0f;
+	
+	float temp;
+	float sum_of_squares; // reused calculation
+	for (int i = 0; i < n - 1; i++) {
+		sum_of_squares = vec[i] * vec[i] + vec[i + 1] * vec[i + 1];
+
+		temp = sin(50 * pow(sum_of_squares, 0.1f));
+		temp *= temp;
+		temp *= pow(sum_of_squares, 0.25f);
+
+		result += temp + 1.0f;
+	}
+
+	return result;
+}
 
 // TODO: implement Ackley's One
 
