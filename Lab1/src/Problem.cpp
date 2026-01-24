@@ -56,13 +56,11 @@ float Rastrigin(const vector<float>& vec) {
 
 		summation += temp;
 	}
-	// NOTE: this might change to a +=
 	result *= summation;
 
 	return result;
 }
 
-// TODO: implement Griegwangk
 float Griewangk(const vector<float>& vec){
 	int n = vec.size();
 	float result = 1.0f;
@@ -83,6 +81,27 @@ float Griewangk(const vector<float>& vec){
 }
 
 // TODO: implement Sine Envelope Sine Wave
+float SineEnvelope(const vector<float>& vec){
+	int n = vec.size();
+	float result = 0.0f;
+	float summation = 0.0f;
+
+	float numerator;
+	float denominator;
+	for (int i = 0; i < n -1; i++) {
+		numerator = vec[i] * vec[i] + vec[i+1] * vec[i+ 1] - 0.5f;
+		numerator *= numerator;
+		numerator = sin(numerator);
+
+		denominator = 1.0f + 0.001f * (vec[i] + vec[i] + vec[i + 1] * vec[i + 1]);
+		denominator *= denominator;
+
+		summation += 0.5f * (numerator / denominator);
+	}
+	result -= summation;
+
+	return result;
+}
 
 // TODO: implement Stretched V Sine Wave
 

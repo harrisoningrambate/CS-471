@@ -12,4 +12,6 @@ float Rosenbrock(const vector<float>& vec);
 float Rastrigin(const vector<float>& vec);
 
 float Griewangk(const vector<float>& vec);
+
+float SineEnvelope(const vector<float>& vec);
 #endif
