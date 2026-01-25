@@ -1,7 +1,8 @@
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include "Problem.h"
 
-// cast math.h implementation of pi from double to float to use in functions
+// cast math.h implementation of pi and e from double to float to use in functions
 #define PI ((float)M_PI)
 #define E ((float)M_E)
 

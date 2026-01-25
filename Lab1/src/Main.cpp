@@ -1,12 +1,11 @@
 #include <iostream>
+#include <memory>
+#include <random>
 #include "Population.h"
 #include "Problem.h"
+#include "Blind.h"
 
 int main() {
-	// read input data
-	// generate population vectors
-	Population pop_test(5, 5, -100, 100);
-	// calculate fitness
 	int prob_num = 1;
 	
 	float (*fitness_calc)(const vector<float>&);
@@ -46,14 +45,22 @@ int main() {
 			return 1;
 	}
 
+	std::unique_ptr<vector<uniform_real_distribution<float>>> distributions = std::make_unique<vector<uniform_real_distribution<float>>>();
+	distributions->resize(5);
+	(*distributions)[0] = uniform_real_distribution<float>(-100, 100);
+	(*distributions)[1] = uniform_real_distribution<float>(-100, 100);
+	(*distributions)[2] = uniform_real_distribution<float>(-100, 100);
+	(*distributions)[3] = uniform_real_distribution<float>(-100, 100);
+	(*distributions)[4] = uniform_real_distribution<float>(-100, 100);
+	Population results = Blind(std::move(distributions), fitness_calc, 5);
 
-	for (int i = 0; i < pop_test.population.size(); i++) {
-		pop_test.fitness[i] = fitness_calc(pop_test.population[i]);
+	for (int i = 0; i < results.population.size(); i++) {
+		results.fitness[i] = fitness_calc(results.population[i]);
 	}
 	std::cout << "\nFitness\n"; 
 	
-	for (int i = 0; i < pop_test.population.size(); i++) {
-		std::cout << std::fixed << pop_test.fitness[i] << " ";
+	for (int i = 0; i < results.population.size(); i++) {
+		std::cout << std::fixed << results.fitness[i] << " ";
 	}
 	std::cout << std::endl;
 
