@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <fstream>
 #include <memory>
@@ -9,6 +10,11 @@
 
 
 std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(std::string& file_name, size_t& pop_size, int& prob_num);
+
+typedef float (*FitnessFunctionPtr)(const vector<float>&);
+FitnessFunctionPtr problemFunction(int prob_num);
+
+// TODO: Output function to put results in a output CSV file
 
 int main(int argc, char* argv[]) {
 
@@ -21,65 +27,22 @@ int main(int argc, char* argv[]) {
 	size_t pop_size;
 	int prob_num = 0;
 	std::unique_ptr<std::vector<uniform_real_distribution<float>>> distributions = processInputFile(file_name, pop_size, prob_num);
+	FitnessFunctionPtr fitness = problemFunction(prob_num);
 
-	float (*fitness_calc)(const vector<float>&);
-	switch (prob_num) {
-		case 1:
-			fitness_calc = Schwefel;	
-			std::cout << "Schwefel\n";
-			break;
-		case 2:
-			fitness_calc = FirstDeJong;
-			std::cout << "First De Jong's\n";
-			break;
-		case 3:
-			fitness_calc = Rosenbrock;
-			std::cout << "Rosenbrock\n";
-			break;
-		case 4:
-			fitness_calc = Rastrigin;
-			std::cout << "Rastrigin\n";
-			break;
-		case 5:
-			fitness_calc = Griewangk;
-			std::cout << "Griewangk\n";
-			break;
-		case 6:
-			fitness_calc = SineEnvelope;
-			std::cout << "Sine Envelope\n";
-			break;
-		case 7:
-			fitness_calc = StretchedV;
-			std::cout << "Stretched V\n";
-			break;
-		case 8:
-			fitness_calc = AckleyOne;
-			std::cout << "Ackley's One\n";
-			break;
-		case 9:
-			fitness_calc = AckleyTwo;
-			std::cout << "Ackley's Two\n";
-			break;
-		case 10:
-			fitness_calc = EggHolder;
-			std::cout << "Egg Holder\n";
-			break;
-		default:
-			std::cout << "invalid problem number" << std::endl;
-			return 1;
-	}
+	Population results = Blind(std::move(distributions), fitness, pop_size);
+	std::cout << pop_size << "\n\n";
 
-	Population results = Blind(std::move(distributions), fitness_calc, 5);
+	std::cout << "Fitness\n"; 
 
-	for (int i = 0; i < results.population.size(); i++) {
-		results.fitness[i] = fitness_calc(results.population[i]);
+	std::cout << std::fixed << std::setprecision(2);
+	for (int i = 0; i < pop_size; i++) {
+		std::cout << "< ";
+		for (int j = 0; j < results.population[i].size() - 1; j++) {
+			std::cout << results.population[i][j] << ", ";
+		}
+		std::cout << results.population[i][results.population[i].size() - 1] << " > | "; 
+		std::cout << results.fitness[i] << "\n";
 	}
-	std::cout << "\nFitness\n"; 
-	
-	for (int i = 0; i < results.population.size(); i++) {
-		std::cout << std::fixed << results.fitness[i] << " ";
-	}
-	std::cout << std::endl;
 
 	// output data
 	return 0;
@@ -126,4 +89,45 @@ std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(
 
 
 	return std::move(distribution_vec);
+}
+
+FitnessFunctionPtr problemFunction(int prob_num) {
+	float (*fitness)(const vector<float>&);
+	switch (prob_num) {
+		case 1:
+			fitness = Schwefel;	
+			break;
+		case 2:
+			fitness = FirstDeJong;
+			break;
+		case 3:
+			fitness = Rosenbrock;
+			break;
+		case 4:
+			fitness = Rastrigin;
+			break;
+		case 5:
+			fitness = Griewangk;
+			break;
+		case 6:
+			fitness = SineEnvelope;
+			break;
+		case 7:
+			fitness = StretchedV;
+			break;
+		case 8:
+			fitness = AckleyOne;
+			break;
+		case 9:
+			fitness = AckleyTwo;
+			break;
+		case 10:
+			fitness = EggHolder;
+			break;
+		default:
+			std::cout << "invalid problem number\n";
+			exit(EXIT_FAILURE);
+	}
+
+	return fitness;
 }
