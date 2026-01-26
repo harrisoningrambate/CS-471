@@ -9,11 +9,25 @@
 #include "Blind.h"
 
 
+/**
+* Processes an input file assigning population assigning population size and problem number.
+* @param[in] file_name, pop_size, prob_num
+* @param[out] vector<distributions> (each dimension can have its own distribution)
+*/
 std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(std::string& file_name, size_t& pop_size, int& prob_num);
 
 typedef float (*FitnessFunctionPtr)(const vector<float>&);
+/**
+* Matches a problem number to its correlating Fitness function
+* @param[in] prob_num
+* @param[out] fitness function
+*/
 FitnessFunctionPtr problemFunction(int prob_num);
 
+/**
+* Outputs result fitness and population to output file in output directory.
+* @param[in] file_output
+*/
 void logResults(Population& pop, std::string file_output);
 
 int main(int argc, char* argv[]) {
