@@ -77,20 +77,29 @@ for file in functions:
 function_averages = {}
 function_medians = {}
 function_ranges = {}
+function_stand_dev = {}
 for function in functions:
     # sort results once since multiple functions require a sorted list
     function_results[function].sort()
     function_averages[function] = average(function_results[function])
     function_medians[function] = median(function_results[function])
     function_ranges[function] = fitness_range(function_results[function])
+    function_stand_dev[function] = standard_deviation(
+        function_results[function])
 
 
 for function in functions:
 
     print(function)
-    print(f"\tAverage: {average(function_results[function]):.2f}")
-    print(f"\tMedian: {median(function_results[function]):.2f}")
-    print(f"\tRange: {fitness_range(function_results[function]):.2f}")
-    print(f"\tStandard Deviation: {
-          standard_deviation(function_results[function]):.2f}")
+    print(f"\tAverage: {function_averages[function]:.2f}")
+    print(f"\tMedian: {function_medians[function]:.2f}")
+    print(f"\tRange: {function_ranges[function]:.2f}")
+    print(f"\tStandard Deviation: {function_stand_dev[function]:.2f}")
     print(f"\tExecution Time: {exec_times[function]:.4f}")
+
+print(f"Mean of Averages: {average(list(function_averages.values())):.2f}")
+print(f"Mean of Medians: {average(list(function_medians.values())):.2f}")
+print(f"Mean of Range: {average(list(function_ranges.values())):.2f}")
+print(f"Mean of Standard Deviations: {
+      average(list(function_stand_dev.values())):.2f}")
+print(f"Mean of Execution Time: {average(list(exec_times.values())):.4f}")
