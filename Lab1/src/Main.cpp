@@ -14,37 +14,32 @@ std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(
 typedef float (*FitnessFunctionPtr)(const vector<float>&);
 FitnessFunctionPtr problemFunction(int prob_num);
 
-// TODO: Output function to put results in a output CSV file
+void logResults(Population& pop, std::string file_output);
 
 int main(int argc, char* argv[]) {
-
+	// ensure correct argument count
 	if (argc < 2) {
 		std::cout << "invalid number of arguments\n";
 		return 1;
 	}
+	
+	// create input and output file location strings
+	std::string file_input(argv[1]);
+	std::string file_output = "output/" + file_input;
+	file_input = "input/" + file_input;
 
-	std::string file_name(argv[1]);
+	// Problem setup
 	size_t pop_size;
-	int prob_num = 0;
-	std::unique_ptr<std::vector<uniform_real_distribution<float>>> distributions = processInputFile(file_name, pop_size, prob_num);
+	int prob_num;
+	std::unique_ptr<std::vector<uniform_real_distribution<float>>> distributions = processInputFile(file_input, pop_size, prob_num);
 	FitnessFunctionPtr fitness = problemFunction(prob_num);
 
+	// run Blind Algorithm
 	Population results = Blind(std::move(distributions), fitness, pop_size);
-	std::cout << pop_size << "\n\n";
 
-	std::cout << "Fitness\n"; 
+	// output results each line is fitness[i],vector[i][0],...,vector[i][j-1]
+	logResults(results, file_output);
 
-	std::cout << std::fixed << std::setprecision(2);
-	for (int i = 0; i < pop_size; i++) {
-		std::cout << "< ";
-		for (int j = 0; j < results.population[i].size() - 1; j++) {
-			std::cout << results.population[i][j] << ", ";
-		}
-		std::cout << results.population[i][results.population[i].size() - 1] << " > | "; 
-		std::cout << results.fitness[i] << "\n";
-	}
-
-	// output data
 	return 0;
 }
 
@@ -130,4 +125,21 @@ FitnessFunctionPtr problemFunction(int prob_num) {
 	}
 
 	return fitness;
+}
+
+void logResults(Population& pop, std::string file_output) {
+	std::ofstream out_file(file_output);
+
+	if (out_file.is_open()) {
+		out_file << std::fixed << std::setprecision(4);
+		for (int i = 0; i < pop.population.size(); i++) {
+			out_file << pop.fitness[i] << ',';
+			for (int j = 0; j < pop.population[i].size() - 1; j++) {
+				out_file << pop.population[i][j] << ',';
+			}
+			out_file << pop.population[i][pop.population[i].size() - 1] << std::endl;
+		}
+		out_file.close();
+	} else
+		std::cout << "Failed to open the output file.";
 }
