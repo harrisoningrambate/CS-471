@@ -58,7 +58,7 @@ function_results = {}
 exec_times = {}
 for input in functions:
     start_time = time.perf_counter()
-    subprocess.run(["a.exe", input + ".csv"])
+    subprocess.run(["./a.exe", input + ".csv"])
     stop_time = time.perf_counter()
     exec_times[input] = stop_time - start_time
     function_results[input] = []
