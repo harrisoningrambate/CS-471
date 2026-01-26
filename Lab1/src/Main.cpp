@@ -131,7 +131,7 @@ void logResults(Population& pop, std::string file_output) {
 	std::ofstream out_file(file_output);
 
 	if (out_file.is_open()) {
-		out_file << std::fixed << std::setprecision(4);
+		out_file << std::fixed << std::setprecision(2);
 		for (int i = 0; i < pop.population.size(); i++) {
 			out_file << pop.fitness[i] << ',';
 			for (int j = 0; j < pop.population[i].size() - 1; j++) {
