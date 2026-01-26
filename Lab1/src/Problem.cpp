@@ -31,13 +31,12 @@ float Rosenbrock(const vector<float>& vec) {
 	int n = vec.size();
 	float result = 0.0f;
 
-	float temp; // used to hold summation calculation
+	float temp;
 	for (int i = 0; i < n - 1; i++) {
-		// calculation current instance of the summation
 		temp = vec[i] * vec[i] - vec[i+1];
 		temp *= temp;
-		temp += (1.0f - vec[i]) * (1.0f - vec[i]);
 		temp *= 100.0f;
+		temp += (1.0f - vec[i]) * (1.0f - vec[i]);
 		
 		result += temp;
 	}
@@ -52,7 +51,6 @@ float Rastrigin(const vector<float>& vec) {
 	
 	float temp;
 	for (int i = 0; i < n; i++) {
-		// calculation current instance of the summation
 		temp = vec[i] * vec[i];
 		temp -= (10.0f * cos(2 * PI *vec[i]));
 
@@ -70,12 +68,10 @@ float Griewangk(const vector<float>& vec){
 	float product = 1.0f;
 
 	for (int i = 0; i < n; i++) {
-		// calculation current instance of the summation and product
 		summation += (vec[i] * vec[i]) / 4000.0f;
 		product *= cos(vec[i] / sqrt(i + 1));
 	}
 
-	// finalize result
 	result += summation;
 	result -= product;
 
