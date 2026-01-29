@@ -8,4 +8,4 @@ cust = { git = "https://github.com/rust-gpu/rust-cuda", rev = "7fa76f3d717038a92
 kernels = { path = "kernels"}
 
 [build-dependencies]
-cuda_builder = { git = "https://github.com/rust-gpu/rust-cuda", rev = "7fa76f3d717038a92c90bf4a482b0b8dd3259344", features = "rustc_codegen_nvvm"}
+cuda_builder = { git = "https://github.com/rust-gpu/rust-cuda", rev = "7fa76f3d717038a92c90bf4a482b0b8dd3259344", features = ["rustc_codegen_nvvm"]}
