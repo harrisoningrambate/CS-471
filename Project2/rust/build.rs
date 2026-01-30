@@ -1,6 +1,6 @@
 use std::{env, path};
 
-use cuda_builder::CudaBuilder;
+use rustc_codegen_nvvm::CudaBuilder;
 
 fn main() {
     println!("cargo::rerun-if-changed=build.rs");
