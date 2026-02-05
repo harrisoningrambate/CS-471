@@ -7,6 +7,7 @@
 #include "Population.h"
 #include "Problem.h"
 #include "Blind.h"
+#include "RepeatedLocalSearch.h"
 
 
 /**
@@ -36,6 +37,15 @@ int main(int argc, char* argv[]) {
 		std::cout << "invalid number of arguments\n";
 		return 1;
 	}
+
+	// get algorithm to run
+	int algo_num;
+	if (argc < 3) {
+		std::cout << "Input algorithm to use as a number\n1: Blind\n2: Repeated Local Search\n";
+		std::cin >> algo_num;
+	} else {
+		algo_num = stoi(argv[2]);
+	}
 	
 	// create input and output file location strings
 	std::string file_input(argv[1]);
@@ -48,9 +58,19 @@ int main(int argc, char* argv[]) {
 	std::unique_ptr<std::vector<uniform_real_distribution<float>>> distributions = processInputFile(file_input, pop_size, prob_num);
 	FitnessFunctionPtr fitness = problemFunction(prob_num);
 
-	// run Blind Algorithm
-	Population results = Blind(std::move(distributions), fitness, pop_size);
-
+	// run selected algorithm
+	Population results(0,0);
+	switch (algo_num) {
+		case 1:
+			results = Blind(std::move(distributions), fitness, pop_size);
+			break;
+		case 2:
+			results = RepeatedLocalSearch(std::move(distributions), fitness, pop_size);
+			break;
+		default:
+			std::cout << "Invalid algorithm number\n";
+			break;
+	}
 	// output results each line is fitness[i],vector[i][0],...,vector[i][j-1]
 	logResults(results, file_output);
 
