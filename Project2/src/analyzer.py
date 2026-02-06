@@ -82,15 +82,14 @@ for file in functions:
     except FileNotFoundError:
         print(f"Error: The file '{file}.csv' was not in the output directory")
 
-# best_fit_index maps a function name to the best fitness value's index in the functions results list
-best_fit_index = {}
+# best fit maps a function name to its best fitness result
+best_fit = {}
 for function in functions:
-    best_fit = function_results[function][0]
-    best_fit_index[function] = 0
-    for i in range(1, len(function_results[function])):
-        if best_fit > function_results[function][i]:
-            best_fit = function_results[function][i]
-            best_fit_index[function] = i
+    best_fit[function] = function_results[function][0]
+    for fit in function_results[function]:
+        if fit < best_fit[function]:
+            best_fit[function] = fit
+
 
 function_averages = {}
 function_medians = {}
@@ -109,8 +108,7 @@ for function in functions:
 for function in functions:
 
     print(function)
-    print(f"\tBest Fitness: {
-          function_results[function][best_fit_index[function]]}")
+    print(f"\tBest Fitness: {best_fit[function]}")
     print(f"\tAverage: {function_averages[function]:.2f}")
     print(f"\tMedian: {function_medians[function]:.2f}")
     print(f"\tRange: {function_ranges[function]:.2f}")
