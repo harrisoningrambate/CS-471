@@ -11,7 +11,8 @@ typedef std::unique_ptr<vector<uniform_real_distribution<float>>> Distributions;
 
 Population RepeatedLocalSearch(Distributions distribution_vec,
 							   float (*fitness)(const vector<float>&),
-							   size_t pop_size);
+							   size_t pop_size,
+							   float step_size);
 
 
 Distributions  SetBestVecFromRandPop(Distributions distribution_vec,
@@ -19,4 +20,9 @@ Distributions  SetBestVecFromRandPop(Distributions distribution_vec,
 										  mt19937& rand_gen,
 										  vector<float>& dest_vec,
 										  size_t pop_size);
+
+Distributions LocalSearch(Distributions distribution_vec,
+						  float (*fitness)(const vector<float>&),
+						  vector<float>& best_vec,
+						  float step_size);
 #endif

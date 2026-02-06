@@ -12,11 +12,11 @@
 
 
 /**
-* Processes an input file assigning population assigning population size and problem number.
-* @param[in] file_name, pop_size, prob_num
+* Processes an input file assigning population size, distributions, problem number, and step size.
+* @param[in] file_name, pop_size, prob_num, step_size
 * @param[out] vector<distributions> (each dimension can have its own distribution)
 */
-std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(std::string& file_name, size_t& pop_size, int& prob_num);
+std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(std::string& file_name, size_t& pop_size, int& prob_num, float& step_size);
 
 typedef float (*FitnessFunctionPtr)(const vector<float>&);
 /**
@@ -54,9 +54,10 @@ int main(int argc, char* argv[]) {
 	file_input = "input/" + file_input;
 
 	// Problem setup
-	size_t pop_size;
-	int prob_num;
-	std::unique_ptr<std::vector<uniform_real_distribution<float>>> distributions = processInputFile(file_input, pop_size, prob_num);
+	size_t pop_size = 0;
+	int prob_num = 0;
+	float step_size = 0;
+	std::unique_ptr<std::vector<uniform_real_distribution<float>>> distributions = processInputFile(file_input, pop_size, prob_num, step_size);
 	FitnessFunctionPtr fitness = problemFunction(prob_num);
 
 	// run selected algorithm
@@ -66,7 +67,7 @@ int main(int argc, char* argv[]) {
 			results = Blind(std::move(distributions), fitness, pop_size);
 			break;
 		case 2:
-			results = RepeatedLocalSearch(std::move(distributions), fitness, pop_size);
+			results = RepeatedLocalSearch(std::move(distributions), fitness, pop_size, step_size);
 			break;
 		default:
 			std::cout << "Invalid algorithm number\n";
@@ -79,7 +80,7 @@ int main(int argc, char* argv[]) {
 }
 
 
-std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(std::string& file_name, size_t& pop_size, int& prob_num) {
+std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(std::string& file_name, size_t& pop_size, int& prob_num, float& step_size) {
 	std::ifstream input_file(file_name);
 
 	// if file fails to open print error message and exit early.
@@ -94,13 +95,17 @@ std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(
 	std::getline(input_file, token, ',');
 	prob_num = std::stoi(token);
 
-	// read population size from input
+	// read population size from input from imput
 	std::getline(input_file, token, ',');
 	pop_size = std::stoi(token);
 
 	// read dimension count from input
-	std::getline(input_file, token);
+	std::getline(input_file, token, ',');
 	size_t dimensions = std::stoi(token);
+
+	// read step size from input file
+	std::getline(input_file, token);
+	step_size = stof(token);
 
 	std::unique_ptr<vector<uniform_real_distribution<float>>> distribution_vec = std::make_unique<vector<uniform_real_distribution<float>>>();
 	distribution_vec->resize(dimensions);
