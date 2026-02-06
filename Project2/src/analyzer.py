@@ -40,6 +40,12 @@ def standard_deviation(values):
     return result
 
 
+algo_num = int(input(
+    "Enter 1 for Blind Search analysis\nEnter 2 for Repeated Local Search Analysis\n"))
+if algo_num > 2 or algo_num < 1:
+    print("Invalid Algorithm Number")
+    exit()
+
 # list of functions to execute the subprocess on
 # each function should have a correlating .csv file in the local input folder
 functions = ["Schwefel",
@@ -58,8 +64,9 @@ function_results = {}
 # map from function name to execution time
 exec_times = {}
 for input in functions:
+    print(f"Searching {input}")
     start_time = time.perf_counter()
-    subprocess.run(["./a.exe", input + ".csv"])
+    subprocess.run(["./a.exe", input + ".csv", str(algo_num)])
     stop_time = time.perf_counter()
     exec_times[input] = stop_time - start_time
     function_results[input] = []
@@ -74,6 +81,16 @@ for file in functions:
             function_results[file].append(float(line[:first_comma]))
     except FileNotFoundError:
         print(f"Error: The file '{file}.csv' was not in the output directory")
+
+# best_fit_index maps a function name to the best fitness value's index in the functions results list
+best_fit_index = {}
+for function in functions:
+    best_fit = function_results[function][0]
+    best_fit_index[function] = 0
+    for i in range(1, len(function_results[function])):
+        if best_fit > function_results[function][i]:
+            best_fit = function_results[function][i]
+            best_fit_index[function] = i
 
 function_averages = {}
 function_medians = {}
@@ -92,6 +109,8 @@ for function in functions:
 for function in functions:
 
     print(function)
+    print(f"\tBest Fitness: {
+          function_results[function][best_fit_index[function]]}")
     print(f"\tAverage: {function_averages[function]:.2f}")
     print(f"\tMedian: {function_medians[function]:.2f}")
     print(f"\tRange: {function_ranges[function]:.2f}")
