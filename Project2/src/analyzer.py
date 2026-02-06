@@ -108,13 +108,14 @@ for function in functions:
 for function in functions:
 
     print(function)
-    print(f"\tBest Fitness: {best_fit[function]}")
+    print(f"\tBest Fitness: {best_fit[function]:.2f}")
     print(f"\tAverage: {function_averages[function]:.2f}")
     print(f"\tMedian: {function_medians[function]:.2f}")
     print(f"\tRange: {function_ranges[function]:.2f}")
     print(f"\tStandard Deviation: {function_stand_dev[function]:.2f}")
     print(f"\tExecution Time: {exec_times[function]:.4f}")
 
+print(f"Mean of Best Fitness: {average(list(best_fit.values())):.2f}")
 print(f"Mean of Averages: {average(list(function_averages.values())):.2f}")
 print(f"Mean of Medians: {average(list(function_medians.values())):.2f}")
 print(f"Mean of Range: {average(list(function_ranges.values())):.2f}")
