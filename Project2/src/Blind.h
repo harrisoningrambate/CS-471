@@ -1,3 +1,4 @@
+// Name: Harrison Ingram-Bate
 #ifndef BLIND
 #define BLIND
 

@@ -1,3 +1,4 @@
+// Name: Harrison Ingram-Bate
 #include "RepeatedLocalSearch.h"
 #include <limits>
 
@@ -17,7 +18,7 @@ Population RepeatedLocalSearch(UniqueDistributions distribution_vec, // distribu
 		// select best vector from a randomly generated population
 		distribution_vec = SetBestVecFromRandPop(std::move(distribution_vec), fitness, rand_gen, return_pop.population[i], pop_size);
 
-		// apply local bounded local search
+		// apply bounded local search
 
 		
 		return_pop.fitness[i] = fitness(return_pop.population[i]);

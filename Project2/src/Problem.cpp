@@ -1,3 +1,4 @@
+// Name: Harrison Ingram-Bate
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "Problem.h"

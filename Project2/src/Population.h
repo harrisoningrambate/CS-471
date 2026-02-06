@@ -1,3 +1,4 @@
+// Name: Harrison Ingram-Bate
 #ifndef POPULATION
 #define POPULATION
 #include <vector>

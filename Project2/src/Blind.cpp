@@ -1,3 +1,4 @@
+// Name: Harrison Ingram-Bate
 #include "Blind.h"
 
 Population Blind(std::unique_ptr<vector<uniform_real_distribution<float>>>  distribution_vec, // distribution for each dimension
