@@ -37,7 +37,8 @@ project_root/
 |  |  `--*.csv	(* all function names)
 |  `--Repeated_Local_Search_CSV/
 |     `--*.csv	(* all function names)
-|--CS471_Proj2.pdf
+|--CS471_Project2.pdf	(Project Report)
+|--CS471_Proj2.pdf	(Doxygen pdf)
 `--README.txt
 
 
