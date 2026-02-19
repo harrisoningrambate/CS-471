@@ -1,3 +1,4 @@
+// Name: Harrison Ingram-Bate
 #include "DifferentialEvolution.h"
 #include <limits>
 #include <iostream>
@@ -9,6 +10,7 @@ Population DifferentialEvolution(Distributions distribution_vec,
 								 size_t gen_pop_size,
 								 float crossover,
 								 float mutation,
+								 float lambda,
 								 unsigned int generations,
 								 unsigned int strategy
 								 )
@@ -57,7 +59,7 @@ Population DifferentialEvolution(Distributions distribution_vec,
 						trial_vec = DErand1exp(current_gen, pop_index_distribution, dimension_index_distribution,crossover_distribution, rand_gen, i, crossover, mutation);
 						break;
 					case 3:
-						trial_vec = DErandbest1exp(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation);
+						trial_vec = DErandbest1exp(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation, lambda);
 						break;
 					case 4:
 						trial_vec = DEbest2exp(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation);
@@ -71,7 +73,7 @@ Population DifferentialEvolution(Distributions distribution_vec,
 						trial_vec = DErand1bin(current_gen, pop_index_distribution, dimension_index_distribution,crossover_distribution, rand_gen, i, crossover, mutation);
 						break;
 					case 8:
-						trial_vec = DErandbest1bin(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation);
+						trial_vec = DErandbest1bin(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation, lambda);
 						break;
 					case 9:
 						trial_vec = DEbest2bin(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation);
@@ -218,7 +220,8 @@ vector<float> DErandbest1exp(Population& current_gen,
 						 int curr_index,
 						 int best_index,
 						 float crossover,
-						 float mutation
+						 float mutation,
+					     float lambda
 						 )
 {
 	int dimensions = current_gen.population[curr_index].size();
@@ -231,10 +234,11 @@ vector<float> DErandbest1exp(Population& current_gen,
 	while (r2 == curr_index || r2 == r1)
 		r2 = pop_index_distribution(rand_gen);
 	
-	// generate noisy vec ( NOTE: lambda is the same as mutation in this implementation)
+	// generate noisy vec
 	vector<float> noisy_vec(dimensions);
 	for (int j = 0; j < dimensions; j++) {
-		noisy_vec[j] = mutation * (current_gen.population[best_index][j] - current_gen.population[curr_index][j] + current_gen.population[r2][j] - current_gen.population[r1][j]);
+		noisy_vec[j] = mutation * (current_gen.population[r2][j] - current_gen.population[r1][j]);
+		noisy_vec[j] = lambda * (current_gen.population[best_index][j] - current_gen.population[curr_index][j]);
 		noisy_vec[j] += current_gen.population[curr_index][j];
 	}
 
@@ -433,7 +437,8 @@ vector<float> DErandbest1bin(Population& current_gen,
 						 int curr_index,
 						 int best_index,
 						 float crossover,
-						 float mutation
+						 float mutation,
+						 float lambda
 						 )
 {
 	int dimensions = current_gen.population[curr_index].size();
@@ -446,10 +451,11 @@ vector<float> DErandbest1bin(Population& current_gen,
 	while (r2 == curr_index || r2 == r1)
 		r2 = pop_index_distribution(rand_gen);
 	
-	// generate noisy vec ( NOTE: lambda is the same as mutation in this implementation)
+	// generate noisy vec
 	vector<float> noisy_vec(dimensions);
 	for (int j = 0; j < dimensions; j++) {
-		noisy_vec[j] = mutation * (current_gen.population[best_index][j] - current_gen.population[curr_index][j] + current_gen.population[r2][j] - current_gen.population[r1][j]);
+		noisy_vec[j] = mutation * (current_gen.population[r2][j] - current_gen.population[r1][j]);
+		noisy_vec[j] = lambda * (current_gen.population[best_index][j] - current_gen.population[curr_index][j]);
 		noisy_vec[j] += current_gen.population[curr_index][j];
 	}
 
