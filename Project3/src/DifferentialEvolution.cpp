@@ -53,7 +53,7 @@ Population DifferentialEvolution(Distributions distribution_vec,
 			cout << current_gen.population[best_index][dimensions - 1] << ">\n";
 
 			for (int i = 0; i <  gen_pop_size; i++) {
-				vector<float> trial_vec = DErandbest1exp(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation);
+				vector<float> trial_vec = DEbest2exp(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation);
 
 				// bound trial vec
 				for (int j = 0; j < dimensions; j++) {
@@ -211,7 +211,52 @@ vector<float> DErandbest1exp(Population& current_gen,
 
 	return std::move(trial_vec);
 }
-// TODO: Implement DE/best/2/exp
+
+vector<float> DEbest2exp(Population& current_gen,
+						 uniform_int_distribution<int>& pop_index_distribution,
+						 uniform_int_distribution<int>& dimension_index_distribution,
+						 uniform_real_distribution<float>& crossover_distribution,
+						 mt19937& rand_gen,
+						 int curr_index,
+						 int best_index,
+						 float crossover,
+						 float mutation
+						 )
+{
+	int dimensions = current_gen.population[curr_index].size();
+
+	// select r1 and r2
+	int r1 = curr_index;
+	while (r1 == curr_index)
+		r1 = pop_index_distribution(rand_gen);
+	int r2 = curr_index;
+	while (r2 == curr_index || r2 == r1)
+		r2 = pop_index_distribution(rand_gen);
+	int r3 = curr_index;
+	while (r3 == curr_index || r3 == r1 || r3 == r2)
+		r3 = pop_index_distribution(rand_gen);
+	int r4 = curr_index;
+	while (r4 == curr_index || r4 == r1 || r4 == r2 || r4 == r3)
+		r4 = pop_index_distribution(rand_gen);
+
+	// generate noisy vec
+	vector<float> noisy_vec(dimensions);
+	for (int j = 0; j < dimensions; j++) {
+		noisy_vec[j] = mutation * (current_gen.population[r1][j] + current_gen.population[r2][j] - current_gen.population[r3][j] - current_gen.population[r4][j]);
+		noisy_vec[j] += current_gen.population[best_index][j];
+	}
+
+	// crossover
+	vector<float> trial_vec = current_gen.population[curr_index];
+	int start_index = dimension_index_distribution(rand_gen);
+	int components = 0;
+	do {
+		int index = (start_index + components) % dimensions;
+		trial_vec[index] = noisy_vec[index];
+		components++;
+	} while (crossover_distribution(rand_gen) < crossover && components < dimensions);
+	return std::move(trial_vec);
+}
 // TODO: Implement DE/rand/2/exp
 // TODO: Implement DE/best/1/bin
 // TODO: Implement DE/rand/1/bin
