@@ -15,7 +15,7 @@
 * @param[in] file_name, pop_size, prob_num, step_size
 * @param[out] vector<distributions> (each dimension can have its own distribution)
 */
-std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(std::string& file_name, size_t& pop_size, int& prob_num, float& step_size);
+std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(std::string& file_name, size_t& pop_size, size_t& gen_pop_size, int& prob_num, float& mutation, float& crossover, int& generations);
 
 typedef float (*FitnessFunctionPtr)(const vector<float>&);
 /**
@@ -41,10 +41,20 @@ int main(int argc, char* argv[]) {
 	// get algorithm to run
 	int algo_num;
 	if (argc < 3) {
-		std::cout << "Input algorithm to use as a number\n1: Blind\n2: Repeated Local Search\n";
+		std::cout << "Input algorithm to use as a number\n1: Differential Evolution\n2: Particle Swarm\n";
 		std::cin >> algo_num;
 	} else {
 		algo_num = stoi(argv[2]);
+	}
+	// get strategy number for DE
+	int strategy;
+	if (algo_num == 1) {
+		if (argc < 4) {
+			std::cout << "Input Strategy for Differential Evolution (1-10)\n";
+			std::cin >> strategy;
+		} else {
+			strategy = stoi(argv[3]);
+		}
 	}
 	
 	// create input and output file location strings
@@ -54,16 +64,20 @@ int main(int argc, char* argv[]) {
 
 	// Problem setup
 	size_t pop_size = 0;
+	size_t gen_pop_size;
 	int prob_num = 0;
-	float step_size = 0;
-	std::unique_ptr<std::vector<uniform_real_distribution<float>>> distributions = processInputFile(file_input, pop_size, prob_num, step_size);
+	float mutation = 0;
+	float crossover = 0;
+	int generations = 0;
+
+	std::unique_ptr<std::vector<uniform_real_distribution<float>>> distributions = processInputFile(file_input, pop_size, gen_pop_size, prob_num, mutation, crossover, generations);
 	FitnessFunctionPtr fitness = problemFunction(prob_num);
 
 	// run selected algorithm
 	Population results(0,0);
 	switch (algo_num) {
 		case 1:
-			results = DifferentialEvolution(std::move(distributions), fitness, 1, 300, 0.6f, 0.6f, 1000, 1);
+			results = DifferentialEvolution(std::move(distributions), fitness, pop_size, gen_pop_size, crossover, mutation, generations, strategy);
 			break;
 		case 2:
 			// TODO: PS
@@ -79,7 +93,7 @@ int main(int argc, char* argv[]) {
 }
 
 
-std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(std::string& file_name, size_t& pop_size, int& prob_num, float& step_size) {
+std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(std::string& file_name, size_t& pop_size, size_t& gen_pop_size, int& prob_num, float& mutation, float& crossover, int& generations) {
 	std::ifstream input_file(file_name);
 
 	// if file fails to open print error message and exit early.
@@ -90,21 +104,33 @@ std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(
 
 	std::string token;
 
-	// read problem number from input
+	// read problem number from input file
 	std::getline(input_file, token, ',');
 	prob_num = std::stoi(token);
 
-	// read population size from input from imput
+	// read population size from input file
 	std::getline(input_file, token, ',');
 	pop_size = std::stoi(token);
 
-	// read dimension count from input
+	// read generation population size from input file
 	std::getline(input_file, token, ',');
-	size_t dimensions = std::stoi(token);
+	gen_pop_size = std::stoi(token);
 
-	// read step size from input file
+	// read mutation constant from input file
+	std::getline(input_file, token, ',');
+	mutation = std::stof(token);
+	
+	// read mutation constant from input file
+	std::getline(input_file, token, ',');
+	crossover = std::stof(token);
+
+	// read mutation constant from input file
+	std::getline(input_file, token, ',');
+	generations = std::stoi(token);
+
+	// read dimension count from input file
 	std::getline(input_file, token);
-	step_size = stof(token);
+	size_t dimensions = std::stoi(token);
 
 	std::unique_ptr<vector<uniform_real_distribution<float>>> distribution_vec = std::make_unique<vector<uniform_real_distribution<float>>>();
 	distribution_vec->resize(dimensions);

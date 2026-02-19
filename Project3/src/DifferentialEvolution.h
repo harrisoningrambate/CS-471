@@ -61,6 +61,16 @@ vector<float> DEbest2exp(Population& current_gen,
 						 float mutation
 						 );
 
+vector<float> DErand2exp(Population& current_gen,
+						 uniform_int_distribution<int>& pop_index_distribution,
+						 uniform_int_distribution<int>& dimension_index_distribution,
+						 uniform_real_distribution<float>& crossover_distribution,
+						 mt19937& rand_gen,
+						 int curr_index,
+						 float crossover,
+						 float mutation
+						 );
+
 vector<float> DEbest1bin(Population& current_gen,
 						 uniform_int_distribution<int>& pop_index_distribution,
 						 uniform_int_distribution<int>& dimension_index_distribution,

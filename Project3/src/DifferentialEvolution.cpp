@@ -26,6 +26,7 @@ Population DifferentialEvolution(Distributions distribution_vec,
 	Population next_gen(gen_pop_size, dimensions);
 	
 	for (int result = 0; result < result_pop_size; result++) {
+		std::cout << "Running iteration " << result + 1 << " of " << result_pop_size << " with " << generations << " generations...\n";
 		// generate random initial population
 		for (int i = 0; i < gen_pop_size; i++) {
 			for (int j = 0; j < dimensions; j++)
@@ -33,7 +34,6 @@ Population DifferentialEvolution(Distributions distribution_vec,
 			current_gen.fitness[i] = fitness(current_gen.population[i]);
 		}
 
-		// TODO: Implement the 10 strategies as separate functions that return a trial vector
 		int best_index;
 		for (int gen = 0; gen < generations; gen++) {
 			// track best fit and its index in current gen
@@ -44,16 +44,40 @@ Population DifferentialEvolution(Distributions distribution_vec,
 					best_index = i;
 				}
 			}
-			// NOTE: REMOVE WHEN FINISHED
-			cout << std::fixed << std::setprecision(2);
-			cout << "Best Vec for gen " << gen << " " << current_gen.fitness[best_index] << " | <";
-			for (int j = 0; j < dimensions - 1; j++) {
-				cout << current_gen.population[best_index][j] << ", ";
-			}
-			cout << current_gen.population[best_index][dimensions - 1] << ">\n";
-
+			
+			// get trial vector specific to the strategy we're using
 			for (int i = 0; i <  gen_pop_size; i++) {
-				vector<float> trial_vec = DEbest1exp(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i,best_index, crossover, mutation);
+				vector<float> trial_vec;
+				switch (strategy) {
+					case 1:
+						trial_vec = DEbest1exp(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation);
+						break;
+					case 2:
+						trial_vec = DErand1exp(current_gen, pop_index_distribution, dimension_index_distribution,crossover_distribution, rand_gen, i, crossover, mutation);
+						break;
+					case 3:
+						trial_vec = DErandbest1exp(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation);
+						break;
+					case 4:
+						trial_vec = DEbest2exp(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation);
+						break;
+					case 5:
+						trial_vec = DErand2exp(current_gen, pop_index_distribution, dimension_index_distribution,crossover_distribution, rand_gen, i, crossover, mutation);
+					case 6:
+						trial_vec = DEbest1bin(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation);
+						break;
+					case 7:
+						trial_vec = DErand1bin(current_gen, pop_index_distribution, dimension_index_distribution,crossover_distribution, rand_gen, i, crossover, mutation);
+						break;
+					case 8:
+						trial_vec = DErandbest1bin(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation);
+						break;
+					case 9:
+						trial_vec = DEbest2bin(current_gen, pop_index_distribution, dimension_index_distribution, crossover_distribution, rand_gen, i, best_index, crossover, mutation);
+						break;
+					case 10:
+						trial_vec = DErand2bin(current_gen, pop_index_distribution, dimension_index_distribution,crossover_distribution, rand_gen, i, crossover, mutation);
+				}
 
 				// bound trial vec
 				for (int j = 0; j < dimensions; j++) {
