@@ -18,4 +18,15 @@ Population DifferentialEvolution(Distributions distribution_vec,
 								 unsigned int strategy
 								 );
 
+vector<float> DEbest1exp(Population& current_gen,
+						 uniform_int_distribution<int>& pop_index_distribution,
+						 uniform_int_distribution<int>& dimension_index_distribution,
+						 uniform_real_distribution<float>& crossover_distribution,
+						 mt19937& rand_gen,
+						 int curr_index,
+						 int best_index,
+						 float crossover,
+						 float mutation
+						 );
+
 #endif
