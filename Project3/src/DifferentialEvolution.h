@@ -38,6 +38,7 @@ vector<float> DErand1exp(Population& current_gen,
 						 float crossover,
 						 float mutation
 						 );
+
 vector<float> DErandbest1exp(Population& current_gen,
 						 uniform_int_distribution<int>& pop_index_distribution,
 						 uniform_int_distribution<int>& dimension_index_distribution,
@@ -59,7 +60,16 @@ vector<float> DEbest2exp(Population& current_gen,
 						 float crossover,
 						 float mutation
 						 );
-// TODO: Implement DE/rand/2/exp
+
+vector<float> DErand2exp(Population& current_gen,
+						 uniform_int_distribution<int>& pop_index_distribution,
+						 uniform_int_distribution<int>& dimension_index_distribution,
+						 uniform_real_distribution<float>& crossover_distribution,
+						 mt19937& rand_gen,
+						 int curr_index,
+						 float crossover,
+						 float mutation
+						 );
 // TODO: Implement DE/best/1/bin
 // TODO: Implement DE/rand/1/bin
 // TODO: Implement DE/rand-to-best/1/bin
