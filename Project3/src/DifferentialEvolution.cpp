@@ -34,6 +34,7 @@ Population DifferentialEvolution(Distributions distribution_vec,
 			current_gen.fitness[i] = fitness(current_gen.population[i]);
 		}
 
+		// get the starting best_index
 		int best_index;
 		for (int gen = 0; gen < generations; gen++) {
 			// track best fit and its index in current gen
@@ -102,12 +103,25 @@ Population DifferentialEvolution(Distributions distribution_vec,
 			Population temp_gen = std::move(current_gen);
 			current_gen = std::move(next_gen);
 			next_gen = std::move(temp_gen);
+
+			// update best index for next gen
+			for (int gen = 0; gen < generations; gen++) {
+				// track best fit and its index in current gen
+				float best_fit = numeric_limits<float>::max();
+				for (int i = 0; i < gen_pop_size; i++) {
+					if (current_gen.fitness[i] < best_fit) {
+						best_fit = current_gen.fitness[i];
+						best_index = i;
+					}
+				}
+			}
 		}
 		
 		// add best vector from last generation to the result population
 		result_pop.population[result] = current_gen.population[best_index];
 		result_pop.fitness[result] = current_gen.fitness[best_index];
 	}
+
 
 	return result_pop;
 }
