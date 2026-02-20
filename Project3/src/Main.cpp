@@ -61,6 +61,10 @@ int main(int argc, char* argv[]) {
 	// create input and output file location strings
 	std::string file_input(argv[1]);
 	std::string file_output = "output/" + file_input;
+	if (algo_num == 1) {
+		int pos = file_output.rfind('/');
+		file_output.insert(pos, '/' + std::to_string(strategy));
+	}
 	std::cout << file_output << '\n';
 	file_input = "input/" + file_input;
 
