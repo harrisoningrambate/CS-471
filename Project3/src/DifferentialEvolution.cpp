@@ -1,7 +1,6 @@
 // Name: Harrison Ingram-Bate
 #include "DifferentialEvolution.h"
 #include <limits>
-#include <iostream>
 
 Population DifferentialEvolution(Distributions distribution_vec,
 								 float (*fitness)(const vector<float>&),
@@ -27,7 +26,6 @@ Population DifferentialEvolution(Distributions distribution_vec,
 	Population next_gen(gen_pop_size, dimensions);
 	
 	for (int result = 0; result < result_pop_size; result++) {
-		std::cout << "Running iteration " << result + 1 << " of " << result_pop_size << " with " << generations << " generations...\n";
 		// generate random initial population
 		for (int i = 0; i < gen_pop_size; i++) {
 			for (int j = 0; j < dimensions; j++)

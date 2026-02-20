@@ -67,7 +67,6 @@ int main(int argc, char* argv[]) {
 		int pos = file_output.rfind('/');
 		file_output.insert(pos, '/' + std::to_string(strategy));
 	}
-	std::cout << file_output << '\n';
 	file_input = "input/" + file_input;
 
 	// Problem setup
