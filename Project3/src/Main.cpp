@@ -12,8 +12,10 @@
 
 
 /**
-* Processes an input file assigning population size, distributions, problem number, and step size.
-* @param[in] file_name, pop_size, prob_num, step_size
+* Processes a Differential Evolution or Particle Swarm input file.
+* For particle swarm input file mutation is used for reading c1, crossover is used for reading c2, and lambda is used for reading the slowing factor.
+* Assigns generation population size, result population size, distributions, problem number, mutation/c1, crossover/c2, lambda/slowing factor, and generations.
+* @param[in] file_name, gen_pop_size, pop_size, prob_num, mutation, crossover, lambda, generations
 * @param[out] vector<distributions> (each dimension can have its own distribution)
 */
 std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(std::string& file_name, size_t& pop_size, size_t& gen_pop_size, int& prob_num, float& mutation, float& crossover, float& lambda, int& generations);
@@ -76,18 +78,27 @@ int main(int argc, char* argv[]) {
 	float crossover = 0;
 	float lambda = 0;
 	int generations = 0;
-
-	std::unique_ptr<std::vector<uniform_real_distribution<float>>> distributions = processInputFile(file_input, pop_size, gen_pop_size, prob_num, mutation, crossover, lambda, generations);
-	FitnessFunctionPtr fitness = problemFunction(prob_num);
+	float c1 = 0;
+	float c2 = 0;
+	float slowing_factor = 0;
 
 	// run selected algorithm
+	std::unique_ptr<std::vector<uniform_real_distribution<float>>> distributions;
 	Population results(0,0);
+	FitnessFunctionPtr fitness;
 	switch (algo_num) {
 		case 1:
+			distributions = processInputFile(file_input, pop_size, gen_pop_size, prob_num, mutation, crossover, lambda, generations);
+			fitness = problemFunction(prob_num);
 			results = DifferentialEvolution(std::move(distributions), fitness, pop_size, gen_pop_size, crossover, mutation, lambda, generations, strategy);
 			break;
 		case 2:
-			results = RepeatedParticleSwarm(std::move(distributions), fitness, 1/*pop_size*/, gen_pop_size, 0.8f, 1.2f, 0.8f, generations);
+			distributions = processInputFile(file_input, pop_size, gen_pop_size, prob_num, c1, c2, slowing_factor, generations);
+			fitness = problemFunction(prob_num);
+			results = RepeatedParticleSwarm(std::move(distributions), fitness, pop_size, gen_pop_size, c1, c2, slowing_factor, generations);
+			std::cout << "c1: " << c1;
+			std::cout << "c2: " << c2;
+			std::cout << "slowing factor: " << slowing_factor;
 			break;
 		default:
 			std::cout << "Invalid algorithm number\n";
@@ -133,7 +144,7 @@ std::unique_ptr<std::vector<uniform_real_distribution<float>>> processInputFile(
 
 	// read lambda constant from input file
 	std::getline(input_file, token, ',');
-	lambda = std::stoi(token);
+	lambda = std::stof(token);
 
 	//read generations constant from input file
 	std::getline(input_file, token, ',');
