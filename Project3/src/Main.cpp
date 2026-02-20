@@ -8,6 +8,7 @@
 #include "Population.h"
 #include "Problem.h"
 #include "DifferentialEvolution.h"
+#include "ParticleSwarm.h"
 
 
 /**
@@ -60,6 +61,7 @@ int main(int argc, char* argv[]) {
 	// create input and output file location strings
 	std::string file_input(argv[1]);
 	std::string file_output = "output/" + file_input;
+	std::cout << file_output << '\n';
 	file_input = "input/" + file_input;
 
 	// Problem setup
@@ -81,7 +83,7 @@ int main(int argc, char* argv[]) {
 			results = DifferentialEvolution(std::move(distributions), fitness, pop_size, gen_pop_size, crossover, mutation, lambda, generations, strategy);
 			break;
 		case 2:
-			// TODO: PS
+			results = RepeatedParticleSwarm(std::move(distributions), fitness, 1/*pop_size*/, gen_pop_size, 0.8f, 1.2f, 0.8f, generations);
 			break;
 		default:
 			std::cout << "Invalid algorithm number\n";
