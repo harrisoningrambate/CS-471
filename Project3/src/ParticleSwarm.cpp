@@ -1,6 +1,4 @@
 #include "ParticleSwarm.h"
-#include <iostream>
-#include <iomanip>
 
 Population RepeatedParticleSwarm(Distributions distribution_vec,
 						 float (*fitness)(const vector<float>&),
@@ -100,8 +98,6 @@ Distributions ParticleSwarm(Distributions distribution_vec,
 					global_best = j;
 			}
 		}
-		std::cout << std::fixed << std::setprecision(2);
-		std::cout << "Best Fit in after " << i << " migrations: " << pBest.fitness[global_best] << "\n";
 	}
 
 	return std::move(distribution_vec);
