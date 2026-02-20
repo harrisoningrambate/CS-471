@@ -143,18 +143,9 @@ vector<float> DEbest1exp(Population& current_gen,
 
 	// select r1 and r2
 	int r1 = curr_index;
-	while (r1 == curr_index)
-		r1 = pop_index_distribution(rand_gen);
+	do {r1 = pop_index_distribution(rand_gen);} while(r1 == curr_index);
 	int r2 = curr_index;
-	while (r2 == curr_index || r2 == r1)
-		r2 = pop_index_distribution(rand_gen);
-
-	// generate noisy vec
-	vector<float> noisy_vec(dimensions);
-	for (int j = 0; j < dimensions; j++) {
-		noisy_vec[j] = mutation * (current_gen.population[r2][j] - current_gen.population[r1][j]);
-		noisy_vec[j] += current_gen.population[best_index][j];
-	}
+	do {r2 = pop_index_distribution(rand_gen);} while (r2 == curr_index || r2 == r1);
 
 	// crossover
 	vector<float> trial_vec = current_gen.population[curr_index];
@@ -162,7 +153,8 @@ vector<float> DEbest1exp(Population& current_gen,
 	int components = 0;
 	do {
 		int index = (start_index + components) % dimensions;
-		trial_vec[index] = noisy_vec[index];
+		trial_vec[index] = mutation * (current_gen.population[r2][index] -current_gen.population[r1][index])
+			+ current_gen.population[best_index][index];
 		components++;
 	} while (crossover_distribution(rand_gen) < crossover && components < dimensions);
 
@@ -183,21 +175,11 @@ vector<float> DErand1exp(Population& current_gen,
 
 	// select r1, r2, and r3
 	int r1 = curr_index;
-	while (r1 == curr_index)
-		r1 = pop_index_distribution(rand_gen);
+	do {r1 = pop_index_distribution(rand_gen);} while (r1 == curr_index);
 	int r2 = curr_index;
-	while (r2 == curr_index || r2 == r1)
-		r2 = pop_index_distribution(rand_gen);
+	do {r2 = pop_index_distribution(rand_gen);} while (r2 == curr_index || r2 == r1);
 	int r3 = curr_index;
-	while (r3 == curr_index || r3 == r1 || r3 == r2)
-		r3 = pop_index_distribution(rand_gen);
-
-	// generate noisy vec
-	vector<float> noisy_vec(dimensions);
-	for (int j = 0; j < dimensions; j++) {
-		noisy_vec[j] = mutation * (current_gen.population[r2][j] - current_gen.population[r1][j]);
-		noisy_vec[j] += current_gen.population[r3][j];
-	}
+	do {r3 = pop_index_distribution(rand_gen);} while (r3 == curr_index || r3 == r1 || r3 == r2);
 
 	// crossover
 	vector<float> trial_vec = current_gen.population[curr_index];
@@ -205,7 +187,8 @@ vector<float> DErand1exp(Population& current_gen,
 	int components = 0;
 	do {
 		int index = (start_index + components) % dimensions;
-		trial_vec[index] = noisy_vec[index];
+		trial_vec[index] = mutation * (current_gen.population[r2][index] - current_gen.population[r1][index])
+			+ current_gen.population[r3][index];
 		components++;
 	} while (crossover_distribution(rand_gen) < crossover && components < dimensions);
 
@@ -228,27 +211,19 @@ vector<float> DErandbest1exp(Population& current_gen,
 
 	// select r1, r2, and r3
 	int r1 = curr_index;
-	while (r1 == curr_index)
-		r1 = pop_index_distribution(rand_gen);
+	do {r1 = pop_index_distribution(rand_gen);} while (r1 == curr_index);
 	int r2 = curr_index;
-	while (r2 == curr_index || r2 == r1)
-		r2 = pop_index_distribution(rand_gen);
+	do {r2 = pop_index_distribution(rand_gen);} while (r2 == curr_index || r2 == r1);
 	
-	// generate noisy vec
-	vector<float> noisy_vec(dimensions);
-	for (int j = 0; j < dimensions; j++) {
-		noisy_vec[j] = mutation * (current_gen.population[r2][j] - current_gen.population[r1][j]);
-		noisy_vec[j] = lambda * (current_gen.population[best_index][j] - current_gen.population[curr_index][j]);
-		noisy_vec[j] += current_gen.population[curr_index][j];
-	}
-
 	// crossover
 	vector<float> trial_vec = current_gen.population[curr_index];
 	int start_index = dimension_index_distribution(rand_gen);
 	int components = 0;
 	do {
 		int index = (start_index + components) % dimensions;
-		trial_vec[index] = noisy_vec[index];
+		trial_vec[index] = mutation * (current_gen.population[r2][index] - current_gen.population[r1][index])
+			+ lambda * (current_gen.population[best_index][index] - current_gen.population[curr_index][index])
+			+ current_gen.population[curr_index][index];
 		components++;
 	} while (crossover_distribution(rand_gen) < crossover && components < dimensions);
 
@@ -270,24 +245,13 @@ vector<float> DEbest2exp(Population& current_gen,
 
 	// select r1 and r2
 	int r1 = curr_index;
-	while (r1 == curr_index)
-		r1 = pop_index_distribution(rand_gen);
+	do {r1 = pop_index_distribution(rand_gen);} while (r1 == curr_index);
 	int r2 = curr_index;
-	while (r2 == curr_index || r2 == r1)
-		r2 = pop_index_distribution(rand_gen);
+	do {r2 = pop_index_distribution(rand_gen);} while (r2 == curr_index || r2 == r1);
 	int r3 = curr_index;
-	while (r3 == curr_index || r3 == r1 || r3 == r2)
-		r3 = pop_index_distribution(rand_gen);
+	do {r3 = pop_index_distribution(rand_gen);} while (r3 == curr_index || r3 == r1 || r3 == r2);
 	int r4 = curr_index;
-	while (r4 == curr_index || r4 == r1 || r4 == r2 || r4 == r3)
-		r4 = pop_index_distribution(rand_gen);
-
-	// generate noisy vec
-	vector<float> noisy_vec(dimensions);
-	for (int j = 0; j < dimensions; j++) {
-		noisy_vec[j] = mutation * (current_gen.population[r1][j] + current_gen.population[r2][j] - current_gen.population[r3][j] - current_gen.population[r4][j]);
-		noisy_vec[j] += current_gen.population[best_index][j];
-	}
+	do {r4 = pop_index_distribution(rand_gen);} while (r4 == curr_index || r4 == r1 || r4 == r2 || r4 == r3);
 
 	// crossover
 	vector<float> trial_vec = current_gen.population[curr_index];
@@ -295,7 +259,8 @@ vector<float> DEbest2exp(Population& current_gen,
 	int components = 0;
 	do {
 		int index = (start_index + components) % dimensions;
-		trial_vec[index] = noisy_vec[index];
+		trial_vec[index] = mutation * (current_gen.population[r1][index] + current_gen.population[r2][index] - current_gen.population[r3][index] - current_gen.population[r4][index])
+			+ current_gen.population[best_index][index];
 		components++;
 	} while (crossover_distribution(rand_gen) < crossover && components < dimensions);
 
@@ -316,27 +281,15 @@ vector<float> DErand2exp(Population& current_gen,
 
 	// select r1 and r2
 	int r1 = curr_index;
-	while (r1 == curr_index)
-		r1 = pop_index_distribution(rand_gen);
+	do {r1 = pop_index_distribution(rand_gen);} while (r1 == curr_index);
 	int r2 = curr_index;
-	while (r2 == curr_index || r2 == r1)
-		r2 = pop_index_distribution(rand_gen);
+	do {r2 = pop_index_distribution(rand_gen);} while (r2 == curr_index || r2 == r1);
 	int r3 = curr_index;
-	while (r3 == curr_index || r3 == r1 || r3 == r2)
-		r3 = pop_index_distribution(rand_gen);
+	do {r3 = pop_index_distribution(rand_gen);} while (r3 == curr_index || r3 == r1 || r3 == r2);
 	int r4 = curr_index;
-	while (r4 == curr_index || r4 == r1 || r4 == r2 || r4 == r3)
-		r4 = pop_index_distribution(rand_gen);
+	do {r4 = pop_index_distribution(rand_gen);} while (r4 == curr_index || r4 == r1 || r4 == r2 || r4 == r3);
 	int r5 = curr_index;
-	while (r5 == curr_index || r5 == r1 || r5 == r2 || r5 == r3 || r5 == r4)
-		r5 = pop_index_distribution(rand_gen);
-
-	// generate noisy vec
-	vector<float> noisy_vec(dimensions);
-	for (int j = 0; j < dimensions; j++) {
-		noisy_vec[j] = mutation * (current_gen.population[r1][j] + current_gen.population[r2][j] - current_gen.population[r3][j] - current_gen.population[r4][j]);
-		noisy_vec[j] += current_gen.population[r5][j];
-	}
+	do {r5 = pop_index_distribution(rand_gen);} while (r5 == curr_index || r5 == r1 || r5 == r2 || r5 == r3 || r5 == r4);
 
 	// crossover
 	vector<float> trial_vec = current_gen.population[curr_index];
@@ -344,7 +297,8 @@ vector<float> DErand2exp(Population& current_gen,
 	int components = 0;
 	do {
 		int index = (start_index + components) % dimensions;
-		trial_vec[index] = noisy_vec[index];
+		trial_vec[index] = mutation * (current_gen.population[r1][index] + current_gen.population[r2][index] - current_gen.population[r3][index] - current_gen.population[r4][index])
+			+ current_gen.population[r5][index];
 		components++;
 	} while (crossover_distribution(rand_gen) < crossover && components < dimensions);
 
@@ -372,18 +326,12 @@ vector<float> DEbest1bin(Population& current_gen,
 	while (r2 == curr_index || r2 == r1)
 		r2 = pop_index_distribution(rand_gen);
 
-	// generate noisy vec
-	vector<float> noisy_vec(dimensions);
-	for (int j = 0; j < dimensions; j++) {
-		noisy_vec[j] = mutation * (current_gen.population[r2][j] - current_gen.population[r1][j]);
-		noisy_vec[j] += current_gen.population[best_index][j];
-	}
-
 	// crossover
 	vector<float> trial_vec = current_gen.population[curr_index];
 	for (int i = 0; i < dimensions; i++) {
 		if (crossover_distribution(rand_gen) < crossover)
-			trial_vec[i] = noisy_vec[i];
+			trial_vec[i] = mutation * (current_gen.population[r2][i] - current_gen.population[r1][i])
+				+ current_gen.population[best_index][i];
 	}
 
 	return std::move(trial_vec);
@@ -403,27 +351,18 @@ vector<float> DErand1bin(Population& current_gen,
 
 	// select r1, r2, and r3
 	int r1 = curr_index;
-	while (r1 == curr_index)
-		r1 = pop_index_distribution(rand_gen);
+	do {r1 = pop_index_distribution(rand_gen);} while (r1 == curr_index);
 	int r2 = curr_index;
-	while (r2 == curr_index || r2 == r1)
-		r2 = pop_index_distribution(rand_gen);
+	do {r2 = pop_index_distribution(rand_gen);} while (r2 == curr_index || r2 == r1);
 	int r3 = curr_index;
-	while (r3 == curr_index || r3 == r1 || r3 == r2)
-		r3 = pop_index_distribution(rand_gen);
-
-	// generate noisy vec
-	vector<float> noisy_vec(dimensions);
-	for (int j = 0; j < dimensions; j++) {
-		noisy_vec[j] = mutation * (current_gen.population[r2][j] - current_gen.population[r1][j]);
-		noisy_vec[j] += current_gen.population[r3][j];
-	}
+	do {r3 = pop_index_distribution(rand_gen);} while (r3 == curr_index || r3 == r1 || r3 == r2);
 
 	// crossover
 	vector<float> trial_vec = current_gen.population[curr_index];
 	for (int i = 0; i < dimensions; i++) {
 		if (crossover_distribution(rand_gen) < crossover)
-			trial_vec[i] = noisy_vec[i];
+			trial_vec[i] = mutation * (current_gen.population[r2][i] - current_gen.population[r1][i])
+				+ current_gen.population[r3][i];
 	}
 
 	return std::move(trial_vec);
@@ -445,25 +384,17 @@ vector<float> DErandbest1bin(Population& current_gen,
 
 	// select r1, r2, and r3
 	int r1 = curr_index;
-	while (r1 == curr_index)
-		r1 = pop_index_distribution(rand_gen);
+	do {r1 = pop_index_distribution(rand_gen);} while (r1 == curr_index);
 	int r2 = curr_index;
-	while (r2 == curr_index || r2 == r1)
-		r2 = pop_index_distribution(rand_gen);
+	do {r2 = pop_index_distribution(rand_gen);} while (r2 == curr_index || r2 == r1);
 	
-	// generate noisy vec
-	vector<float> noisy_vec(dimensions);
-	for (int j = 0; j < dimensions; j++) {
-		noisy_vec[j] = mutation * (current_gen.population[r2][j] - current_gen.population[r1][j]);
-		noisy_vec[j] = lambda * (current_gen.population[best_index][j] - current_gen.population[curr_index][j]);
-		noisy_vec[j] += current_gen.population[curr_index][j];
-	}
-
 	// crossover
 	vector<float> trial_vec = current_gen.population[curr_index];
 	for (int i = 0; i < dimensions; i++) {
 		if (crossover_distribution(rand_gen) < crossover)
-			trial_vec[i] = noisy_vec[i];
+			trial_vec[i] = mutation * (current_gen.population[r2][i] - current_gen.population[r1][i])
+				+ lambda * (current_gen.population[best_index][i] - current_gen.population[curr_index][i])
+				+ current_gen.population[curr_index][i];
 	}
 
 	return std::move(trial_vec);
@@ -484,30 +415,20 @@ vector<float> DEbest2bin(Population& current_gen,
 
 	// select r1 and r2
 	int r1 = curr_index;
-	while (r1 == curr_index)
-		r1 = pop_index_distribution(rand_gen);
+	do {r1 = pop_index_distribution(rand_gen);} while (r1 == curr_index);
 	int r2 = curr_index;
-	while (r2 == curr_index || r2 == r1)
-		r2 = pop_index_distribution(rand_gen);
+	do {r2 = pop_index_distribution(rand_gen);} while (r2 == curr_index || r2 == r1);
 	int r3 = curr_index;
-	while (r3 == curr_index || r3 == r1 || r3 == r2)
-		r3 = pop_index_distribution(rand_gen);
+	do {r3 = pop_index_distribution(rand_gen);} while (r3 == curr_index || r3 == r1 || r3 == r2);
 	int r4 = curr_index;
-	while (r4 == curr_index || r4 == r1 || r4 == r2 || r4 == r3)
-		r4 = pop_index_distribution(rand_gen);
-
-	// generate noisy vec
-	vector<float> noisy_vec(dimensions);
-	for (int j = 0; j < dimensions; j++) {
-		noisy_vec[j] = mutation * (current_gen.population[r1][j] + current_gen.population[r2][j] - current_gen.population[r3][j] - current_gen.population[r4][j]);
-		noisy_vec[j] += current_gen.population[best_index][j];
-	}
+	do {r4 = pop_index_distribution(rand_gen);} while (r4 == curr_index || r4 == r1 || r4 == r2 || r4 == r3);
 
 	// crossover
 	vector<float> trial_vec = current_gen.population[curr_index];
 	for (int i = 0; i < dimensions; i++) {
 		if (crossover_distribution(rand_gen) < crossover)
-			trial_vec[i] = noisy_vec[i];
+			trial_vec[i] = mutation * (current_gen.population[r1][i] + current_gen.population[r2][i] - current_gen.population[r3][i] - current_gen.population[r4][i])
+				+ current_gen.population[best_index][i];
 	}
 
 	return std::move(trial_vec);
@@ -527,33 +448,22 @@ vector<float> DErand2bin(Population& current_gen,
 
 	// select r1 and r2
 	int r1 = curr_index;
-	while (r1 == curr_index)
-		r1 = pop_index_distribution(rand_gen);
+	do {r1 = pop_index_distribution(rand_gen);} while (r1 == curr_index);
 	int r2 = curr_index;
-	while (r2 == curr_index || r2 == r1)
-		r2 = pop_index_distribution(rand_gen);
+	do {r2 = pop_index_distribution(rand_gen);} while (r2 == curr_index || r2 == r1);
 	int r3 = curr_index;
-	while (r3 == curr_index || r3 == r1 || r3 == r2)
-		r3 = pop_index_distribution(rand_gen);
+	do {r3 = pop_index_distribution(rand_gen);} while (r3 == curr_index || r3 == r1 || r3 == r2);
 	int r4 = curr_index;
-	while (r4 == curr_index || r4 == r1 || r4 == r2 || r4 == r3)
-		r4 = pop_index_distribution(rand_gen);
+	do {r4 = pop_index_distribution(rand_gen);} while (r4 == curr_index || r4 == r1 || r4 == r2 || r4 == r3);
 	int r5 = curr_index;
-	while (r5 == curr_index || r5 == r1 || r5 == r2 || r5 == r3 || r5 == r4)
-		r5 = pop_index_distribution(rand_gen);
-
-	// generate noisy vec
-	vector<float> noisy_vec(dimensions);
-	for (int j = 0; j < dimensions; j++) {
-		noisy_vec[j] = mutation * (current_gen.population[r1][j] + current_gen.population[r2][j] - current_gen.population[r3][j] - current_gen.population[r4][j]);
-		noisy_vec[j] += current_gen.population[r5][j];
-	}
+	do {r5 = pop_index_distribution(rand_gen);} while (r5 == curr_index || r5 == r1 || r5 == r2 || r5 == r3 || r5 == r4);
 
 	// crossover
 	vector<float> trial_vec = current_gen.population[curr_index];
 	for (int i = 0; i < dimensions; i++) {
 		if (crossover_distribution(rand_gen) < crossover)
-			trial_vec[i] = noisy_vec[i];
+			trial_vec[i] = mutation * (current_gen.population[r1][i] + current_gen.population[r2][i] - current_gen.population[r3][i] - current_gen.population[r4][i])
+				+ current_gen.population[r5][i];
 	}
 
 	return std::move(trial_vec);
