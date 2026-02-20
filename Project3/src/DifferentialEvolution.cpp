@@ -2,7 +2,6 @@
 #include "DifferentialEvolution.h"
 #include <limits>
 #include <iostream>
-#include <iomanip>
 
 Population DifferentialEvolution(Distributions distribution_vec,
 								 float (*fitness)(const vector<float>&),
