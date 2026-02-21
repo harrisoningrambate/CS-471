@@ -1,5 +1,10 @@
 #include "ParticleSwarm.h"
 
+/**
+* Runs result_size iterations of ParticleSwarm saving the best vector from each generation.
+* @param[in] distribution_vec, fitness, particles, c1, c2, slowing factor, generations
+* @param[out] the resulting population of result_size iterations
+*/
 Population RepeatedParticleSwarm(Distributions distribution_vec,
 						 float (*fitness)(const vector<float>&),
 						 size_t result_size,
@@ -32,6 +37,11 @@ Population RepeatedParticleSwarm(Distributions distribution_vec,
 	return result_pop;
 }
 
+/**
+* Runs a single iteration of particle swarm. The best index is used in repeated particle swarm to save the best vector to result pop.
+* @param[in] distribution_vec, uniform_real_distribution, rand_gen, particle_gen, pBest, global_best, c1, c2, slowing_factor, iterations
+* @param[out] distribution_vec (used in the next iteration of particle swarm)
+*/
 Distributions ParticleSwarm(Distributions distribution_vec,
 							float (*fitness)(const vector<float>&),
 							uniform_real_distribution<float>& zero_to_one,

@@ -95,9 +95,6 @@ int main(int argc, char* argv[]) {
 			distributions = processInputFile(file_input, pop_size, gen_pop_size, prob_num, c1, c2, slowing_factor, generations);
 			fitness = problemFunction(prob_num);
 			results = RepeatedParticleSwarm(std::move(distributions), fitness, pop_size, gen_pop_size, c1, c2, slowing_factor, generations);
-			std::cout << "c1: " << c1;
-			std::cout << "c2: " << c2;
-			std::cout << "slowing factor: " << slowing_factor;
 			break;
 		default:
 			std::cout << "Invalid algorithm number\n";

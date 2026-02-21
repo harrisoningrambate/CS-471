@@ -1,0 +1,50 @@
+Schwefel
+	Avg: 4085.93
+	SD: 305.56
+	Exec Time: 2.27
+
+FirstDeJong
+	Avg: 922.37
+	SD: 134.89
+	Exec Time: 1.31
+
+Rosenbrock
+	Avg: 267732335.47
+	SD: 70431483.99
+	Exec Time: 1.43
+
+Rastrigin
+	Avg: 127666.42
+	SD: 23224.61
+	Exec Time: 2.12
+
+Griewangk
+	Avg: 33.83
+	SD: 4.38
+	Exec Time: 2.31
+
+SineEnvelope
+	Avg: -6.68
+	SD: 0.25
+	Exec Time: 2.27
+
+StretchedV
+	Avg: 42.28
+	SD: 1.62
+	Exec Time: 4.83
+
+AckleyOne
+	Avg: 101.70
+	SD: 7.37
+	Exec Time: 3.02
+
+AckleyTwo
+	Avg: 323.25
+	SD: 10.95
+	Exec Time: 5.81
+
+EggHolder
+	Avg: -12919.62
+	SD: 585.65
+	Exec Time: 3.37
+
