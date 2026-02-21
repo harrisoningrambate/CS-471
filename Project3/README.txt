@@ -105,8 +105,8 @@ g++ -std=c++14 *.cpp *.h -o a.exe
 --------------------------------
 Analyze Results
 --------------------------------
-To analyze results for either Blind Search or Repeated Local Searchwe use analyzer.py a script that calls the compiled
-executable with an input file.
+To analyze results for both Differential Evolution and Particle Swarm optimization use analyzer.py a script that calls 
+the compiled executable with an input file.
 
 Requirements to run analyzer.py:
 - Have python 3.0 installed
