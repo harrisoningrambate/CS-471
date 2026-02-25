@@ -39,20 +39,26 @@ project_root/
 |  |  |--10
 |  |  |  |--DE
 |  |  |  |  `--n (n is 1-10 indicating the strategy used)
+|  |  |  |     |-- CondensedResults.txt
 |  |  |  |     `--*.csv (* all function names)
 |  |  |  `--PS
+|  |  |     |-- CondensedResults.txt
 |  |  |      `--*.csv
 |  |  |--20
 |  |  |  |--DE
 |  |  |  |  `--n (n is 1-10 indicating the strategy used)
+|  |  |  |     |-- CondensedResults.txt
 |  |  |  |     `--*.csv (* all function names)
 |  |  |  `--PS
+|  |  |     |-- CondensedResults.txt
 |  |  |      `--*.csv
 |  |  `--30
 |  |     |--DE
-|  |  |  |  `--n (n is 1-10 indicating the strategy used)
-|  |  |  |     `--*.csv (* all function names)
+|  |     |     |-- CondensedResults.txt
+|  |     |  `--n (n is 1-10 indicating the strategy used)
+|  |     |     `--*.csv (* all function names)
 |  |     `--PS
+|  |        |-- CondensedResults.txt
 |  |         `--*.csv
 |  |--Main.cpp
 |  |--Population.cpp
@@ -68,21 +74,28 @@ project_root/
 |  |--10
 |  |  |--DE
 |  |  |  `--n (n is 1-10 indicating the strategy used)
+|  |  |     |-- CondensedResults.txt
 |  |  |     `--*.csv (* all function names)
 |  |  `--PS
+|  |     |-- CondensedResults.txt
 |  |      `--*.csv
 |  |--20
 |  |  |--DE
 |  |  |  `--n (n is 1-10 indicating the strategy used)
+|  |  |     |-- CondensedResults.txt
 |  |  |     `--*.csv (* all function names)
 |  |  `--PS
+|  |     |-- CondensedResults.txt
 |  |      `--*.csv
-|  `--30
-|     |--DE
-|     |  `--n (n is 1-10 indicating the strategy used)
-|     |     `--*.csv (* all function names)
-|     `--PS
-|         `--*.csv
+|  |--30
+|  |  |--DE
+|  |  |  `--n (n is 1-10 indicating the strategy used)
+|  |  |     |-- CondensedResults.txt
+|  |  |     `--*.csv (* all function names)
+|  |  `--PS
+|  |     |-- CondensedResults.txt
+|  |      `--*.csv
+|  `--T-Tests.xlsx (excel spreadsheet used to calculate paired T-Tests)
 |--CS471_Project3.pdf	(Project Report)
 |--CS471_Proj3.pdf	(Doxygen pdf)
 `--README.txt
@@ -106,7 +119,8 @@ g++ -std=c++14 *.cpp *.h -o a.exe
 Analyze Results
 --------------------------------
 To analyze results for both Differential Evolution and Particle Swarm optimization use analyzer.py a script that calls 
-the compiled executable with an input file.
+the compiled executable with input files found in the input directory and outputs results to .csv files in the output
+directory along with a 
 
 Requirements to run analyzer.py:
 - Have python 3.0 installed
@@ -121,4 +135,4 @@ from terminal in the src directory.
 Output
 --------------------------------
 The output of analyzer.py is the correct .csv file in all locations and in each group of 10 functions a CondensedResults.txt
-file that gives the average, standard deviation, and exectution time for 30 iterations of either DE or PSO
+file that gives the average, standard deviation, and exectution time for 30 iterations of either DE or PSO.
