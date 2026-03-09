@@ -9,8 +9,8 @@ public:
 	/**
 	* Constructor of 
 	*/
-	FShop(std::size_t machines,
-	   std::size_t jobs,
+	FShop(std::size_t jobs,
+	   std::size_t machines,
 	   unsigned int (*makespanfn)(std::vector<std::vector<unsigned int>>&));
 	void updateMakespan();
 

@@ -47,14 +47,14 @@ FShop processInputFShop(std::string& filename) {
 	std::size_t job_count = std::stoi(token);
 
 	// allocate flow shop and fill values
-	FShop fs(machine_count, job_count, makespan_functions::blocking);
-	for (int i = 0; i < machine_count; i++) {
+	FShop fs(job_count, machine_count, makespan_functions::blocking);
+	for (int m = 0; m < machine_count; m++) {
 		for (int j = 0; j < job_count - 1; j++) {
 			std::getline(input_file, token, ' ');
-			fs.f_shop[i][j] = stoi(token);
+			fs.f_shop[j][m] = stoi(token);
 		}
 		std::getline(input_file, token);
-		fs.f_shop[i][job_count - 1] = stoi(token);
+		fs.f_shop[job_count - 1][m] = stoi(token);
 	}
 	fs.updateMakespan();
 	
