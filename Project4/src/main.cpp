@@ -12,7 +12,6 @@ using namespace std;
 FShop processInputFShop(std::string& filename);
 
 int main() {
-	vector<vector<unsigned int>> test_vec(2, vector<unsigned int>(2, 2));
 	string input_file = "test_input.txt";
 	FShop test_fs2 = processInputFShop(input_file);
 
@@ -23,7 +22,6 @@ int main() {
 		cout << endl;
 	}
 	
-	cout << makespan_functions::nonBlocking(test_vec) << std::endl;
 	cout << test_fs2.makespan << std::endl;
 }
 
@@ -47,7 +45,7 @@ FShop processInputFShop(std::string& filename) {
 	std::size_t job_count = std::stoi(token);
 
 	// allocate flow shop and fill values
-	FShop fs(job_count, machine_count, makespan_functions::blocking);
+	FShop fs(job_count, machine_count, makespan_functions::nonBlocking);
 	for (int m = 0; m < machine_count; m++) {
 		for (int j = 0; j < job_count - 1; j++) {
 			std::getline(input_file, token, ' ');
