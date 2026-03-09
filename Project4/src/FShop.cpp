@@ -1,3 +1,4 @@
+// Name: Harrison Ingram-Bate
 #include "FShop.h"
 
 FShop::FShop(std::size_t jobs,

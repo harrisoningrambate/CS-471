@@ -1,4 +1,4 @@
-// Nme: Harrison Ingram-Bate
+// Name: Harrison Ingram-Bate
 #ifndef F_SHOP
 #define F_SHOP
 

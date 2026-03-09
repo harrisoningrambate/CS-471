@@ -5,6 +5,7 @@
 
 #include "FShop.h"
 #include "MakespanFunctions.h"
+#include "NEH.h"
 
 using namespace std;
 
@@ -12,17 +13,11 @@ using namespace std;
 FShop processInputFShop(std::string& filename);
 
 int main() {
-	string input_file = "test_input.txt";
+	string input_file = "1.txt";
 	FShop test_fs2 = processInputFShop(input_file);
-
-	for (int i = 0; i < test_fs2.f_shop.size(); i++) {
-		for (int j = 0; j < test_fs2.f_shop[i].size(); j++) {
-			cout << test_fs2.f_shop[i][j] << " ";
-		}
-		cout << endl;
-	}
-	
-	cout << test_fs2.makespan << std::endl;
+	cout << "Makespan before neh heuristic: " << test_fs2.makespan << std::endl;
+	FShop neh_fs = NEH(test_fs2);
+	std::cout << "Makespan after NEH heuristic: " << neh_fs.makespan << std::endl;
 }
 
 FShop processInputFShop(std::string& filename) {
@@ -45,7 +40,7 @@ FShop processInputFShop(std::string& filename) {
 	std::size_t job_count = std::stoi(token);
 
 	// allocate flow shop and fill values
-	FShop fs(job_count, machine_count, makespan_functions::nonBlocking);
+	FShop fs(job_count, machine_count, makespan_functions::blocking);
 	for (int m = 0; m < machine_count; m++) {
 		for (int j = 0; j < job_count - 1; j++) {
 			std::getline(input_file, token, ' ');

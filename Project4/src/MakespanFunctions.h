@@ -1,3 +1,4 @@
+// Name: Harrison Ingram-Bate
 #ifndef MAKESPAN_FUNCTIONS
 #define MAKESPAN_FUNCTIONS
 
