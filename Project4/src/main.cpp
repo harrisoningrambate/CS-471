@@ -6,6 +6,7 @@
 #include "FShop.h"
 #include "MakespanFunctions.h"
 #include "NEH.h"
+#include "ACO.h"
 
 using namespace std;
 
@@ -13,11 +14,19 @@ using namespace std;
 FShop processInputFShop(std::string& filename);
 
 int main() {
-	string input_file = "neh_test.txt";
+	// TODO: Handle environment parameters
+
+	string input_file = "Taillard_TestData/75.txt";
 	FShop test_fs2 = processInputFShop(input_file);
+
+	// TODO: call corrent algorithm ACO or NEH
 	cout << "Makespan before neh heuristic: " << test_fs2.makespan << std::endl;
 	FShop neh_fs = NEH(test_fs2);
 	std::cout << "Makespan after NEH heuristic: " << neh_fs.makespan << std::endl;
+
+	ACO(neh_fs, 100, 100, 1.0f, 2.0f, 0.5f, 1);
+
+	// TODO: write results to output dir
 }
 
 FShop processInputFShop(std::string& filename) {
@@ -40,7 +49,7 @@ FShop processInputFShop(std::string& filename) {
 	std::size_t job_count = std::stoi(token);
 
 	// allocate flow shop and fill values
-	FShop fs(job_count, machine_count, makespan_functions::nonBlocking);
+	FShop fs(job_count, machine_count, makespan_functions::blocking);
 	for (int m = 0; m < machine_count; m++) {
 		for (int j = 0; j < job_count - 1; j++) {
 			std::getline(input_file, token, ' ');

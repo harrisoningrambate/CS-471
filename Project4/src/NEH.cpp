@@ -6,8 +6,6 @@
 #include <functional>
 #include <limits>
 
-// NOTE: debug libraries
-#include <iostream>
 
 FShop NEH(FShop& fs) {	
 	std::size_t total_jobs = fs.f_shop.size();
@@ -50,6 +48,7 @@ FShop NEH(FShop& fs) {
 			}
 			sequence.erase(sequence.begin() + i);
 		}
+		// insert job in the best found position
 		sequence.insert(sequence.begin() + best_index, current_index);
 	}
 
