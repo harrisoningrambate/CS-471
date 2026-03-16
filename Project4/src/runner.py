@@ -25,6 +25,6 @@ for i in range(1, 121):
     subprocess.run(["./a.exe", input_dir, output_dir, str(2), str(1)])
 # blocking
 for i in range(1, 121):
-    input_dir = f"{aco_input}/blocing/{i}.txt"
+    input_dir = f"{aco_input}/blocking/{i}.txt"
     output_dir = f"{aco_output}/blocking/{i}.txt"
-    subprocess.run(["./a.exe", input_dir, output_dir, str(2), str(1)])
+    subprocess.run(["./a.exe", input_dir, output_dir, str(2), str(2)])
