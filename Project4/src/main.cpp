@@ -102,22 +102,17 @@ FShop processInputFShop(std::string& filename, unsigned int (*makespan_fn)(std::
 	std::getline(input_file, token, ' ');
 	std::size_t machine_count = std::stoi(token);
 	
-	std::cout << "input file type: " << input_file_type;
-
 	// read job count
 	std::size_t job_count;
 	if (input_file_type == 1) {
-		std::cout << "made it here 1";
 		std::getline(input_file, token);
 		job_count = std::stoi(token);
 	} else {
-		std::cout << "made it here 2";
 		std::getline(input_file, token, ' ');
 		job_count = std::stoi(token);
 		std::getline(input_file, token, ' ');
 		std::getline(input_file, token);
 	}
-		std::cout << "made it here 3";
 
 	// allocate flow shop and fill values
 	FShop fs(job_count, machine_count, makespan_fn);
