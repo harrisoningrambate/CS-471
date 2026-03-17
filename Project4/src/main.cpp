@@ -25,6 +25,12 @@ FShop processInputFShop(std::string& filename,
 						unsigned int (*makespan_fp)(std::vector<std::vector<unsigned int>>&, std::vector<std::size_t>&),
 						int input_file_type);
 
+/**
+* Write the results to an output file
+*
+* @param[in] filename to write to
+* @param[in] exec_time the execution time of an algorithm
+*/
 void writeOutputData(std::string& filename, FShop fs, const std::chrono::duration<float> exec_time);
 
 int main(int argc, char* argv[]) {
